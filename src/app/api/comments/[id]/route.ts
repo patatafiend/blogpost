@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 import connectToDB from "@/lib/mongodb";
 import Comment from "@/models/comment";
 
 // DELETE comment
 export async function DELETE(
-  req: Request,
-  context: { params: { id: string } }
+  req: NextRequest,
+  { params }: { params: { id: string } }
 ) {
-  const { id } = context.params;
+  const { id } = params;
 
   try {
     await connectToDB();
@@ -24,12 +25,12 @@ export async function DELETE(
   }
 }
 
-// UPDATE comment
+// PUT comment
 export async function PUT(
-  req: Request,
-  context: { params: { id: string } }
+  req: NextRequest,
+  { params }: { params: { id: string } }
 ) {
-  const { id } = context.params;
+  const { id } = params;
 
   try {
     await connectToDB();
