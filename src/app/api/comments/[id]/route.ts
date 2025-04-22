@@ -2,7 +2,13 @@ import { NextResponse, type NextRequest } from "next/server";
 import connectToDB from "@/lib/mongodb";
 import Comment from "@/models/comment";
 
-export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
+type Context = {
+  params: {
+    id: string;
+  };
+};
+
+export async function DELETE(req: NextRequest, context: Context) {
   const { params } = context; // Access params from context
   const { id } = params;
 
@@ -21,8 +27,8 @@ export async function DELETE(req: NextRequest, context: { params: { id: string }
   }
 }
 
-export async function PUT(req: NextRequest, context: { params: { id: string } }) {
-  const { params } = context; // Access params from context
+export async function PUT(req: NextRequest, context: Context) {
+  const { params } = context;
   const { id } = params;
 
   try {
