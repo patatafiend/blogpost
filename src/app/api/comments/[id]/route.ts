@@ -4,9 +4,9 @@ import Comment from "@/models/comment";
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
-  const { id } = params;
+  const { id } = await context.params;
 
   try {
     await connectToDB();
@@ -25,9 +25,9 @@ export async function DELETE(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
-  const { id } = params;
+  const { id } = await context.params;
 
   try {
     await connectToDB();
