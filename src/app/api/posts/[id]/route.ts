@@ -2,9 +2,12 @@ import { NextResponse } from "next/server";
 import connectToDB from "@/lib/mongodb";
 import Post from "@/models/post";
 
-export async function GET(req: Request, context: { params: { id: string } }) {
+export async function GET(
+  req: Request,
+  context: { params: Promise<{ id: string }> }
+) {
   try {
-    const { id } = await context.params; // Await the params object
+    const { id } = await context.params;
     await connectToDB();
 
     const post = await Post.findById(id);
@@ -19,12 +22,15 @@ export async function GET(req: Request, context: { params: { id: string } }) {
   }
 }
 
-export async function DELETE(req: Request, context: { params: { id: string } }) {
-  const { id } = await context.params; // Await the params object
+export async function DELETE(
+  req: Request,
+  context: { params: Promise<{ id: string }> }
+) {
   try {
+    const { id } = await context.params;
     await connectToDB();
-    const post = await Post.findByIdAndDelete(id);
 
+    const post = await Post.findByIdAndDelete(id);
     if (!post) {
       return NextResponse.json({ message: "Post not found." }, { status: 404 });
     }
@@ -36,9 +42,12 @@ export async function DELETE(req: Request, context: { params: { id: string } }) 
   }
 }
 
-export async function PUT(req: Request, context: { params: { id: string } }) {
-  const { id } = await context.params; // Await the params object
+export async function PUT(
+  req: Request,
+  context: { params: Promise<{ id: string }> }
+) {
   try {
+    const { id } = await context.params;
     const { title, content, image } = await req.json();
 
     if (!title || !content) {

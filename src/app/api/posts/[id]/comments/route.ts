@@ -4,9 +4,10 @@ import Comment from "@/models/comment";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
+// GET comments
 export async function GET(
-  req: Request,
-  context: { params: { id: string } }
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
   const { id } = await context.params; // Await the params object
 
@@ -17,7 +18,11 @@ export async function GET(
   return NextResponse.json({ comments });
 }
 
-export async function POST(req: NextRequest, context: { params: { id: string } }) {
+// POST a new comment
+export async function POST(
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
   const { id } = await context.params; // Await the params object
 
   const session = await getServerSession(authOptions);
