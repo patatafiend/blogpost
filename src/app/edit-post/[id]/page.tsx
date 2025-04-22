@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 
 
 const EditPostPage = () => {
@@ -119,6 +120,14 @@ const EditPostPage = () => {
               disabled={pending}
               required
             />
+            <Image
+              src={post.image ? `/uploads/${post.image}` : "/placeholder.png"}
+              alt="Post Image"
+              width={300}
+              height={300}
+              className="object-cover rounded-lg mb-4"
+              priority>
+            </Image>
             <Input
               type="file"
               name="image"

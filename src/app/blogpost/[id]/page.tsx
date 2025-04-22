@@ -13,6 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { TriangleAlert } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 const PostDetails = () => {
   const { data: session } = useSession();
@@ -90,9 +91,7 @@ const PostDetails = () => {
 
     if (res.ok) {
       setComments((prev) =>
-        prev.map((c) =>
-          c._id === id ? { ...c, text: editingCommentText } : c
-        )
+        prev.map((c) => (c._id === id ? { ...c, text: editingCommentText } : c))
       );
       setEditingCommentId(null);
       setEditingCommentText("");
@@ -155,99 +154,99 @@ const PostDetails = () => {
   return (
     <div className="h-full flex justify-center p-6 bg-gray-100">
       <Card className="w-full max-w-2xl bg-white p-4 sm:p-8 rounded-xl shadow-md">
-      <CardHeader>
-        <CardTitle>{post.title}</CardTitle>
-        <CardDescription>
-        Posted by {post.userEmail} on{" "}
-        {new Date(post.createdAt).toLocaleDateString()} at{" "}
-        {new Date(post.createdAt).toLocaleTimeString()}
-        </CardDescription>
-      </CardHeader>
-      <Separator />
-      <CardContent>
-        {post.image && (
-        <img
-          src={post.image}
-          alt={post.title}
-          className="rounded-lg mb-6 w-full object-cover"
-        />
-        )}
-        <p className="text-gray-800 whitespace-pre-line">{post.content}</p>
-      </CardContent>
-      <Separator className="my-6" />
-      <div className="mt-4">
-        <h3 className="text-lg font-semibold mb-2">Comments</h3>
-        {comments.length === 0 ? (
-        <p className="text-sm text-gray-500">
-          No comments yet. Be the first!
-        </p>
-        ) : (
-        <ul className="space-y-4">
-          {comments.map((comment) => (
-          <li
-            key={comment._id}
-            className="border p-3 rounded-md bg-gray-50"
-          >
-            {editingCommentId === comment._id ? (
-            <>
-              <textarea
-              className="w-full border rounded p-2 mb-2"
-              value={editingCommentText}
-              onChange={(e) =>
-                setEditingCommentText(e.target.value)
-              }
-              />
-              <div className="flex gap-2">
-              <Button
-                size="sm"
-                onClick={() => handleUpdateComment(comment._id)}
-              >
-                Save
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => setEditingCommentId(null)}
-              >
-                Cancel
-              </Button>
-              </div>
-            </>
-            ) : (
-            <>
-              <p className="text-sm text-gray-800">{comment.text}</p>
-              <p className="text-xs text-gray-500 mt-1">
-              – {comment.userEmail},{" "}
-              {new Date(comment.createdAt).toLocaleDateString()} at{" "}
-              {new Date(comment.createdAt).toLocaleTimeString()}
-              </p>
-              {session?.user?.email === comment.userEmail && (
-              <div className="flex gap-3 mt-2">
-                <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  setEditingCommentId(comment._id);
-                  setEditingCommentText(comment.text);
-                }}
+        <CardHeader>
+          <CardTitle>{post.title}</CardTitle>
+          <CardDescription>
+            Posted by {post.userEmail} on{" "}
+            {new Date(post.createdAt).toLocaleDateString()} at{" "}
+            {new Date(post.createdAt).toLocaleTimeString()}
+          </CardDescription>
+        </CardHeader>
+        <Separator />
+        <CardContent>
+          {post.image && (
+            <Image
+              src={`/uploads/${post.image}`}
+              alt="Post Image"
+              width={200}
+              height={200}
+              className="rounded-md mb-4"
+            />
+          )}
+          <p className="text-gray-800 whitespace-pre-line">{post.content}</p>
+        </CardContent>
+        <Separator className="my-6" />
+        <div className="mt-4">
+          <h3 className="text-lg font-semibold mb-2">Comments</h3>
+          {comments.length === 0 ? (
+            <p className="text-sm text-gray-500">
+              No comments yet. Be the first!
+            </p>
+          ) : (
+            <ul className="space-y-4">
+              {comments.map((comment) => (
+                <li
+                  key={comment._id}
+                  className="border p-3 rounded-md bg-gray-50"
                 >
-                Edit
-                </Button>
-                <Button
-                variant="destructive"
-                size="sm"
-                onClick={() => handleDeleteComment(comment._id)}
-                >
-                Delete
-                </Button>
-              </div>
-              )}
-            </>
-            )}
-          </li>
-          ))}
-        </ul>
-        )}
+                  {editingCommentId === comment._id ? (
+                    <>
+                      <textarea
+                        className="w-full border rounded p-2 mb-2"
+                        value={editingCommentText}
+                        onChange={(e) => setEditingCommentText(e.target.value)}
+                      />
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          onClick={() => handleUpdateComment(comment._id)}
+                        >
+                          Save
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setEditingCommentId(null)}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-sm text-gray-800">{comment.text}</p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        – {comment.userEmail},{" "}
+                        {new Date(comment.createdAt).toLocaleDateString()} at{" "}
+                        {new Date(comment.createdAt).toLocaleTimeString()}
+                      </p>
+                      {session?.user?.email === comment.userEmail && (
+                        <div className="flex gap-3 mt-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setEditingCommentId(comment._id);
+                              setEditingCommentText(comment.text);
+                            }}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => handleDeleteComment(comment._id)}
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
 
           {session ? (
             <form onSubmit={handleCommentSubmit} className="mt-4 space-y-2">
