@@ -35,7 +35,7 @@ const SignInPage = () => {
     if (res?.ok) {
       router.push("/");
       toast.success("Sign in successful");
-    } else if (res?.status === 400) {
+    } else if (res?.status === 401) {
       setError("Invalid Credentials");
       setPending(false);
     } else if (res?.status === 500) {
