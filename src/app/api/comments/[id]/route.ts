@@ -1,12 +1,10 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import connectToDB from "@/lib/mongodb";
 import Comment from "@/models/comment";
 
-
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: Record<string, string> } 
+  { params }: { params: { id: string } }
 ) {
   const { id } = params;
 
@@ -25,10 +23,9 @@ export async function DELETE(
   }
 }
 
-
 export async function PUT(
   req: NextRequest,
-  { params }: { params: Record<string, string> } 
+  { params }: { params: { id: string } }
 ) {
   const { id } = params;
 
@@ -42,11 +39,7 @@ export async function PUT(
       return NextResponse.json({ error: "Content is required" }, { status: 400 });
     }
 
-    const updatedComment = await Comment.findByIdAndUpdate(
-      id,
-      { text },
-      { new: true }
-    );
+    const updatedComment = await Comment.findByIdAndUpdate(id, { text }, { new: true });
 
     if (!updatedComment) {
       return NextResponse.json({ error: "Comment not found" }, { status: 404 });
