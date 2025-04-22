@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -79,6 +79,7 @@ const EditPostPage = () => {
       }
     } catch (err) {
       setError("An unexpected error occurred.");
+      console.error("Error updating post:", err);
       toast.error("An unexpected error occurred.");
     } finally {
       setPending(false);

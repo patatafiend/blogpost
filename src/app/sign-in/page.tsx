@@ -12,7 +12,6 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { set } from "mongoose";
 import { toast } from "sonner";
 import { signIn } from "next-auth/react";
 import { TriangleAlert } from "lucide-react";
@@ -87,7 +86,7 @@ const SignInPage = () => {
 
           <Separator className="my-4" />
           <div className="text-center text-sm text-gray-500">
-            Don't have an account?{" "}
+            Dont have an account?{" "}
             <a href="/sign-up" className="text-blue-500 hover:underline">
               Sign Up
             </a>

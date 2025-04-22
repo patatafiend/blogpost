@@ -5,7 +5,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { stat } from "fs";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Loader } from "lucide-react";

@@ -121,14 +121,14 @@ const PostDetails = () => {
       const res = await fetch(`/api/posts/${id}`);
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.message || "Failed to fetch post");
+        throw new Error(data.message);
       }
 
       const data = await res.json();
       setPost(data.post);
-    } catch (err: any) {
-      console.error("Fetch error:", err);
-      setError(err.message);
+    } catch (error) {
+      console.error("Fetch error:", error);
+      setError("Failed to load post.");
     } finally {
       setLoading(false);
     }
