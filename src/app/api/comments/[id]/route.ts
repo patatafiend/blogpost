@@ -2,11 +2,13 @@ import { NextResponse } from "next/server";
 import connectToDB from "@/lib/mongodb";
 import Comment from "@/models/comment";
 
+// DELETE comment
 export async function DELETE(
   req: Request,
   context: { params: { id: string } }
 ) {
-  const { id } = await context.params; // Await the params object
+  const { id } = context.params;
+
   try {
     await connectToDB();
 
@@ -22,11 +24,13 @@ export async function DELETE(
   }
 }
 
+// UPDATE comment
 export async function PUT(
   req: Request,
   context: { params: { id: string } }
 ) {
-  const { id } = await context.params; // Await the params object
+  const { id } = context.params;
+
   try {
     await connectToDB();
 
@@ -47,7 +51,10 @@ export async function PUT(
       return NextResponse.json({ error: "Comment not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ message: "Comment updated successfully", comment: updatedComment });
+    return NextResponse.json({
+      message: "Comment updated successfully",
+      comment: updatedComment,
+    });
   } catch (err) {
     console.error("Error updating comment:", err);
     return NextResponse.json({ error: "Failed to update comment" }, { status: 500 });
