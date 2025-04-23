@@ -4,10 +4,10 @@ import Post from "@/models/post";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
   try {
-    const { id } = params;
+    const { id } = await context.params;
     await connectToDB();
 
     const post = await Post.findById(id);
