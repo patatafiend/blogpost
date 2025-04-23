@@ -88,10 +88,10 @@ const CreatePostPage = () => {
         setError(data.message || "Failed to create post.");
         toast.error(data.message || "Failed to create post.");
       }
-    } catch (error: any) {
-      setError(error.message || "An unexpected error occurred.");
+    } catch (error) {
+      setError("An unexpected error occurred.");
       console.error("Error creating post:", error);
-      toast.error(error.message || "An unexpected error occurred.");
+      toast.error("An unexpected error occurred.");
     } finally {
       setPending(false);
     }
