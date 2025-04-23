@@ -32,8 +32,16 @@ const CreatePostPage = () => {
       const file = e.target.files[0];
 
       // Validate file type
-      if (!file.type.startsWith("image/")) {
-        toast.error("Please upload a valid image file.");
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+      ];
+      if (!allowedTypes.includes(file.type)) {
+        toast.error(
+          "Invalid file type. Only JPEG, PNG, GIF, and WEBP are allowed."
+        );
         return;
       }
 
@@ -45,6 +53,7 @@ const CreatePostPage = () => {
       }
 
       setImage(file);
+      toast.success("Image uploaded successfully!");
     }
   };
 
@@ -79,10 +88,10 @@ const CreatePostPage = () => {
         setError(data.message || "Failed to create post.");
         toast.error(data.message || "Failed to create post.");
       }
-    } catch (error) {
-      setError("An unexpected error occurred.");
+    } catch (error: any) {
+      setError(error.message || "An unexpected error occurred.");
       console.error("Error creating post:", error);
-      toast.error("An unexpected error occurred.");
+      toast.error(error.message || "An unexpected error occurred.");
     } finally {
       setPending(false);
     }
@@ -135,7 +144,7 @@ const CreatePostPage = () => {
               <Input
                 id="image-upload"
                 type="file"
-                accept="image/*"
+                accept="image/jpeg, image/png, image/gif, image/webp"
                 onChange={handleImageChange}
                 disabled={pending}
               />

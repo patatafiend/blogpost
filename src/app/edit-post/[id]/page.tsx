@@ -124,21 +124,27 @@ const EditPostPage = () => {
               disabled={pending}
               required
             />
-            <Image
-              src={post.image}
-              alt="Post Image"
-              width={200}
-              height={200}
-              className="rounded-md mb-4"
-            />
-
+            {post.image ? (
+              <Image
+                src={post.image}
+                alt="Post Image"
+                width={200}
+                height={200}
+                className="rounded-md mb-4"
+              />
+            ) : (
+              <div className="text-sm text-gray-500 mb-4">
+                No image available
+              </div>
+            )}
             <Input
               type="file"
               name="image"
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) {
-                  setPost((prev) => ({ ...prev, image: file.name }));
+                  const previewUrl = URL.createObjectURL(file);
+                  setPost((prev) => ({ ...prev, image: previewUrl }));
                 }
               }}
               disabled={pending}
