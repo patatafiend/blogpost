@@ -14,12 +14,41 @@ export async function POST(req: Request) {
     const image = formData.get("image") as File;
 
     if (!title || !content) {
-      return NextResponse.json({ message: "Title and content are required." }, { status: 400 });
+      return NextResponse.json(
+        { message: "Title and content are required." },
+        { status: 400 }
+      );
     }
 
     let imagePath = null;
 
     if (image && image.size > 0) {
+      // Validate file type
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+      ];
+      if (!allowedTypes.includes(image.type)) {
+        return NextResponse.json(
+          {
+            message:
+              "Invalid image type. Only JPEG, PNG, GIF, and WEBP are allowed.",
+          },
+          { status: 400 }
+        );
+      }
+
+      // Validate file size (e.g., 5MB limit)
+      const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+      if (image.size > maxSizeInBytes) {
+        return NextResponse.json(
+          { message: "Image size exceeds the 5MB limit." },
+          { status: 400 }
+        );
+      }
+
       const bytes = await image.arrayBuffer();
       const buffer = Buffer.from(bytes);
       const uploadPath = path.join(process.cwd(), "public/uploads", image.name);
@@ -35,10 +64,16 @@ export async function POST(req: Request) {
       image: imagePath,
     });
 
-    return NextResponse.json({ message: "Post created successfully!", post: newPost }, { status: 201 });
+    return NextResponse.json(
+      { message: "Post created successfully!", post: newPost },
+      { status: 201 }
+    );
   } catch (err) {
     console.error("Error:", err);
-    return NextResponse.json({ message: "Failed to create post." }, { status: 500 });
+    return NextResponse.json(
+      { message: "Failed to create post." },
+      { status: 500 }
+    );
   }
 }
 
@@ -49,6 +84,9 @@ export async function GET() {
     return NextResponse.json({ posts }, { status: 200 });
   } catch (err) {
     console.error("Error:", err);
-    return NextResponse.json({ message: "Failed to fetch posts." }, { status: 500 });
+    return NextResponse.json(
+      { message: "Failed to fetch posts." },
+      { status: 500 }
+    );
   }
 }

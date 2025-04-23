@@ -18,7 +18,10 @@ export async function GET(
     return NextResponse.json({ post }, { status: 200 });
   } catch (error) {
     console.error("Error fetching post:", error);
-    return NextResponse.json({ message: "Failed to fetch post." }, { status: 500 });
+    return NextResponse.json(
+      { message: "Failed to fetch post." },
+      { status: 500 }
+    );
   }
 }
 
@@ -35,10 +38,16 @@ export async function DELETE(
       return NextResponse.json({ message: "Post not found." }, { status: 404 });
     }
 
-    return NextResponse.json({ message: "Post deleted successfully." }, { status: 200 });
+    return NextResponse.json(
+      { message: "Post deleted successfully." },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error deleting post:", error);
-    return NextResponse.json({ message: "Failed to delete post." }, { status: 500 });
+    return NextResponse.json(
+      { message: "Failed to delete post." },
+      { status: 500 }
+    );
   }
 }
 
@@ -51,7 +60,10 @@ export async function PUT(
     const { title, content, image } = await req.json();
 
     if (!title || !content) {
-      return NextResponse.json({ message: "Title and content are required." }, { status: 400 });
+      return NextResponse.json(
+        { message: "Title and content are required." },
+        { status: 400 }
+      );
     }
 
     await connectToDB();
@@ -71,6 +83,9 @@ export async function PUT(
     );
   } catch (error) {
     console.error("Error updating post:", error);
-    return NextResponse.json({ message: "Failed to update post." }, { status: 500 });
+    return NextResponse.json(
+      { message: "Failed to update post." },
+      { status: 500 }
+    );
   }
 }

@@ -17,7 +17,6 @@ import { Separator } from "@/components/ui/separator";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 
-
 const EditPostPage = () => {
   const router = useRouter();
   const { id } = useParams();
@@ -39,7 +38,11 @@ const EditPostPage = () => {
           throw new Error("Post not found");
         }
         const data = await res.json();
-        setPost({ title: data.post.title, content: data.post.content, image: data.post.image});
+        setPost({
+          title: data.post.title,
+          content: data.post.content,
+          image: data.post.image,
+        });
         console.log("Post data fetched:", post, id);
       } catch (err) {
         console.error(err);
@@ -47,7 +50,7 @@ const EditPostPage = () => {
       }
     };
 
-    fetchPost()
+    fetchPost();
   }, [id]);
 
   const handleInputChange = (
@@ -102,7 +105,7 @@ const EditPostPage = () => {
           </div>
         )}
         <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <Input
               type="text"
               name="title"
@@ -122,28 +125,28 @@ const EditPostPage = () => {
               required
             />
             <Image
-              src={post.image ? `/uploads/${post.image}` : "/placeholder.png"}
+              src={post.image}
               alt="Post Image"
-              width={300}
-              height={300}
-              className="object-cover rounded-lg mb-4"
-              priority>
-            </Image>
+              width={200}
+              height={200}
+              className="rounded-md mb-4"
+            />
+
             <Input
               type="file"
               name="image"
               onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) {
-                setPost((prev) => ({ ...prev, image: file.name }));
-              }
+                const file = e.target.files?.[0];
+                if (file) {
+                  setPost((prev) => ({ ...prev, image: file.name }));
+                }
               }}
               disabled={pending}
             />
             <Button type="submit" className="w-full" disabled={pending}>
               {pending ? "Updating..." : "Update Post"}
             </Button>
-            </form>
+          </form>
         </CardContent>
       </Card>
     </div>

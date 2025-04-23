@@ -29,7 +29,22 @@ const CreatePostPage = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setImage(e.target.files[0]);
+      const file = e.target.files[0];
+
+      // Validate file type
+      if (!file.type.startsWith("image/")) {
+        toast.error("Please upload a valid image file.");
+        return;
+      }
+
+      // Validate file size (e.g., 5MB limit)
+      const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxSizeInBytes) {
+        toast.error("File size exceeds the 5MB limit.");
+        return;
+      }
+
+      setImage(file);
     }
   };
 
@@ -111,10 +126,14 @@ const CreatePostPage = () => {
               required
             />
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="image-upload"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Upload Image (optional)
               </label>
               <Input
+                id="image-upload"
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}

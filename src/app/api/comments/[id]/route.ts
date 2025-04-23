@@ -20,7 +20,10 @@ export async function DELETE(
     return NextResponse.json({ message: "Comment deleted successfully" });
   } catch (err) {
     console.error("Error deleting comment:", err);
-    return NextResponse.json({ error: "Failed to delete comment" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to delete comment" },
+      { status: 500 }
+    );
   }
 }
 
@@ -38,7 +41,10 @@ export async function PUT(
     const { text } = body;
 
     if (!text) {
-      return NextResponse.json({ error: "Content is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Content is required" },
+        { status: 400 }
+      );
     }
 
     const updatedComment = await Comment.findByIdAndUpdate(
@@ -57,6 +63,9 @@ export async function PUT(
     });
   } catch (err) {
     console.error("Error updating comment:", err);
-    return NextResponse.json({ error: "Failed to update comment" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to update comment" },
+      { status: 500 }
+    );
   }
 }

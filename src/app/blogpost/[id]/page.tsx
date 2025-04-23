@@ -166,7 +166,7 @@ const PostDetails = () => {
         <CardContent>
           {post.image && (
             <Image
-              src={`/uploads/${post.image}`}
+              src={post.image}
               alt="Post Image"
               width={200}
               height={200}
