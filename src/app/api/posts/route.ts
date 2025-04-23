@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
         (resolve, reject) => {
           const uploadStream = cloudinary.uploader.upload_stream(
             {
-              folder: "your_folder_name", // Optional: specify folder in Cloudinary
+              folder: "",
               public_id: uuidv4(),
               resource_type: "image",
             },
