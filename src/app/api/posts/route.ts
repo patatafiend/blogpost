@@ -8,7 +8,7 @@ import { requireAuth} from "@/lib/authHelper";
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await requireAuth(req);
+    const session = await requireAuth();
     if (session instanceof NextResponse) return session; 
 
     const formData = await req.formData();

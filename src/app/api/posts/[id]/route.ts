@@ -31,7 +31,7 @@ export async function DELETE(
   context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth(req);
+    const session = await requireAuth();
     if (session instanceof NextResponse) return session; 
 
     const { id } = await context.params;
@@ -60,7 +60,7 @@ export async function PUT(
   context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await requireAuth(req);
+    const session = await requireAuth();
     if (session instanceof NextResponse) return session;
 
     const { id } = await context.params;
