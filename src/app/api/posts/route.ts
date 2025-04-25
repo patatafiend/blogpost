@@ -4,9 +4,13 @@ import Post from "@/models/post";
 import { v4 as uuidv4 } from "uuid";
 import cloudinary from "@/lib/cloudinary";
 import streamifier from "streamifier";
+import { requireAuth} from "@/lib/authHelper";
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await requireAuth(req);
+    if (session instanceof NextResponse) return session; 
+
     const formData = await req.formData();
 
     const title = formData.get("title") as string;

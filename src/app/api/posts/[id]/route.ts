@@ -1,6 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import connectToDB from "@/lib/mongodb";
 import Post from "@/models/post";
+import { requireAuth } from "@/lib/authHelper";
 
 export async function GET(
   req: Request,
@@ -26,10 +27,13 @@ export async function GET(
 }
 
 export async function DELETE(
-  req: Request,
+  req: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const session = await requireAuth(req);
+    if (session instanceof NextResponse) return session; 
+
     const { id } = await context.params;
     await connectToDB();
 
@@ -52,10 +56,13 @@ export async function DELETE(
 }
 
 export async function PUT(
-  req: Request,
+  req: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const session = await requireAuth(req);
+    if (session instanceof NextResponse) return session;
+
     const { id } = await context.params;
     const { title, content, image } = await req.json();
 
