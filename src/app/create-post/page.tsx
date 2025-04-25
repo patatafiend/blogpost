@@ -113,14 +113,16 @@ const CreatePostPage = () => {
           </div>
         )}
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
             <Input
               type="text"
               disabled={pending}
               placeholder="Post Title"
               value={form.title}
               onChange={(e) => {
+              if (e.target.value.length <= 30) {
                 setForm({ ...form, title: e.target.value });
+              }
               }}
               required
             />
@@ -129,30 +131,32 @@ const CreatePostPage = () => {
               placeholder="Post Content"
               value={form.content}
               onChange={(e) => {
+              if (e.target.value.length <= 200) {
                 setForm({ ...form, content: e.target.value });
+              }
               }}
               rows={6}
               required
             />
             <div>
               <label
-                htmlFor="image-upload"
-                className="block text-sm font-medium text-gray-700"
+              htmlFor="image-upload"
+              className="block text-sm font-medium text-gray-700"
               >
-                Upload Image (optional)
+              Upload Image (optional)
               </label>
               <Input
-                id="image-upload"
-                type="file"
-                accept="image/jpeg, image/png, image/gif, image/webp"
-                onChange={handleImageChange}
-                disabled={pending}
+              id="image-upload"
+              type="file"
+              accept="image/jpeg, image/png, image/gif, image/webp"
+              onChange={handleImageChange}
+              disabled={pending}
               />
             </div>
             <Button className="w-full" size="lg" disabled={pending}>
               {pending ? "Creating..." : "Create Post"}
             </Button>
-          </form>
+            </form>
         </CardContent>
       </Card>
     </div>

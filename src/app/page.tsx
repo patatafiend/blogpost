@@ -130,8 +130,8 @@ const Home = () => {
             <Separator />
             <CardContent className="space-y-4">
               <p>
-                {post.content.length > 100
-                  ? `${post.content.substring(0, 100)}...`
+                {post.content.length > 30
+                  ? `${post.content.substring(0, 30)}...`
                   : post.content}
               </p>
               <div className="flex gap-4">

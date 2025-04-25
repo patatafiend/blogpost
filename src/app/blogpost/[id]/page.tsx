@@ -44,6 +44,12 @@ const PostDetails = () => {
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (newComment.length > 300) {
+      alert("Comment cannot exceed 300 characters.");
+      return;
+    }
+
     setCommentPending(true);
 
     const res = await fetch(`/api/posts/${id}/comments`, {
@@ -173,7 +179,11 @@ const PostDetails = () => {
               className="rounded-md mb-4"
             />
           )}
-          <p className="text-gray-800 whitespace-pre-line">{post.content}</p>
+            <p className="text-gray-800 whitespace-pre-line">
+            {post.content.length > 30
+              ? post.content.match(/.{1,40}/g)?.join("\n")
+              : post.content}
+            </p>
         </CardContent>
         <Separator className="my-6" />
         <div className="mt-4">
@@ -214,7 +224,11 @@ const PostDetails = () => {
                     </>
                   ) : (
                     <>
-                      <p className="text-sm text-gray-800">{comment.text}</p>
+                        <p className="text-sm text-gray-800">
+                        {comment.text.length > 30
+                          ? comment.text.match(/.{1,40}/g)?.join("\n")
+                          : comment.text}
+                        </p>
                       <p className="text-xs text-gray-500 mt-1">
                         – {comment.userEmail},{" "}
                         {new Date(comment.createdAt).toLocaleDateString()} at{" "}
